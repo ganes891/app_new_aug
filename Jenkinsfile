@@ -8,16 +8,13 @@ node (label: 'slave1') {
      sh "${mvnCMD} clean package"
    }
    stage('Build Docker Image'){
-     def myimage = docker.build("ganesh891/devimage${env.BUILD_ID}", "./tmp/workspace/tomcat-dev/")
-     myimage.inside {
-     sh 'date'
-     }
+     def myimage = docker.build("ganesh891/devimage${env.BUILD_ID}", "./tmp/workspace/tomcat-dev")}
    }
    stage('Push Docker Image'){
      withCredentials([string(credentialsId: 'dockerlogin', variable: 'dockerHubPwd')]) {
         sh "docker login -u ganesh891 -p ${dockerHubPwd}"
-     }
-     sh 'docker push ganesh891/devimage${env.BUILD_ID}'
-     sh 'docker run -p 8080:8080 -d --name my-app ganesh891/devimage:${env.BUILD_ID}'
+        sh "docker push ganesh891/devimage${env.BUILD_ID}"
+	sh "docker run -p 8080:8080 -d --name my-app ganesh891/devimage:${env.BUILD_ID}"
    }
 }
+
