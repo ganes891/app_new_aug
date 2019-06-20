@@ -8,7 +8,7 @@ node (label: 'slave1') {
      sh "${mvnCMD} clean package"
    }
    stage('Build Docker Image'){
-     sh label: '', script: 'IMAGE_NAME="ganesh891/my-app:${BUILD_NUMBER}'
+     sh 'IMAGE_NAME="ganesh891/my-app:${BUILD_NUMBER}'
      sh 'docker build -t ganesh891/my-app:$IMAGE_NAME .'
    }
    stage('Push Docker Image'){
