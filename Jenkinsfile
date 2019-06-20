@@ -9,7 +9,7 @@ node (label: 'slave1') {
    }
    stage('Build Docker Image'){
      sh 'IMAGE_NAME="ganesh891/tomcat:${BUILD_NUMBER}'
-     sh 'docker build -t $IMAGE_NAME .'
+     sh 'docker build -t $IMAGE_NAME /tmp/workspace/tomcat-dev/.'
    }
    stage('Push Docker Image'){
      withCredentials([string(credentialsId: 'dockerlogin', variable: 'dockerHubPwd')]) {
