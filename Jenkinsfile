@@ -18,10 +18,4 @@ node (label: 'slave1') {
      sh 'docker push ganesh891/my-app:$IMAGE_NAME'
      sh 'docker run -p 8080:8080 -d --name my-app ganesh891/my-app:$IMAGE_NAME'
    }
-   #stage('Run Container on slave1'){
-   #  def dockerRun = 'docker run -p 8080:8080 -d --name my-app ganesh891/my-app:$IMAGE_NAME'
-   #  sshagent(['dev-server']) {
-   #    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.18.198 ${dockerRun}"
-   # }
-  # }
 }
