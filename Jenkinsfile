@@ -4,7 +4,7 @@ node (label: 'slave1') {
    }
    stage('Mvn Package'){
      def mvnHome = tool name: 'maven-3', type: 'maven'
-     def mvnCMD = "${mvnHome}/bin/mvn"
+     def mvnCMD = "${mvnHome}"
      sh "${mvnCMD} clean package"
    }
    stage('Build Docker Image'){
