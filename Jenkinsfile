@@ -17,3 +17,4 @@ node (label: 'slave1') {
         sh "docker run -p 8080:8080 -d --name my-app ganesh891/devimage:${env.BUILD_ID}"
    }
 }
+}
