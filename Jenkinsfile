@@ -4,17 +4,17 @@ node (label: 'slave1') {
    }
    stage('Mvn Package'){
      def mvnHome = tool name: 'maven-3', type: 'maven'
-     def mvnCMD = "${mvnHome}"
+     def mvnCMD = "${mvnHome}/bin/mvn"
      sh "${mvnCMD} clean package"
    }
    stage('Build Docker Image'){
-     def myimage = docker.build("ganesh891/devimage${env.BUILD_ID}", "./tmp/workspace/tomcat-dev")}
+	sh 'sudo docker build -t ganesh891/devimage${env.BUILD_ID} /tmp/workspace/tomcat-dev/}'
    }
    stage('Push Docker Image'){
      withCredentials([string(credentialsId: 'dockerlogin', variable: 'dockerHubPwd')]) {
-        sh "docker login -u ganesh891 -p ${dockerHubPwd}"
-        sh "docker push ganesh891/devimage${env.BUILD_ID}"
-	sh "docker run -p 8080:8080 -d --name my-app ganesh891/devimage:${env.BUILD_ID}"
+        sh "sudo docker login -u ganesh891 -p ${dockerHubPwd}"
+        sh "sudo docker push ganesh891/devimage${env.BUILD_ID}"
+	sh "sudo docker run -p 8080:8080 -d --name my-app ganesh891/devimage:${env.BUILD_ID}"
    }
 }
 
