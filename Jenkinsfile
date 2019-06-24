@@ -12,9 +12,9 @@ node (label: 'slave1') {
    }
    stage('Push Docker Image'){
      withCredentials([string(credentialsId: 'dockerlogin', variable: 'dockerHubPwd')]) {
-        sh "docker login -u ganesh891 -p ${dockerHubPwd}"
-        sh "docker push ganesh891/devimage${env.BUILD_ID}"
-        sh "docker run -p 8080:8080 -d --name my-app ganesh891/devimage:${env.BUILD_ID}"
+        sh "sudo docker login -u ganesh891 -p ${dockerHubPwd}"
+        sh "sudo docker push ganesh891/devimage${env.BUILD_ID}"
+        sh "sudo docker run -p 8080:8080 -d --name my-appjune ganesh891/devimage:${env.BUILD_ID}"
    }
 }
 }
