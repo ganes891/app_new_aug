@@ -8,7 +8,7 @@ node (label: 'slave1') {
      sh "${mvnCMD} clean package"
    }
    stage('Build Docker Image'){
-     def myimage = docker.build("ganesh891/devimage${env.BUILD_ID}", "./tomcat-dev/")}
+     sh "sudo docker build -t ganesh891/devimage${env.BUILD_ID} /tmp/workspace/tomcat-dev/."
    }
    stage('Push Docker Image'){
      withCredentials([string(credentialsId: 'dockerlogin', variable: 'dockerHubPwd')]) {
