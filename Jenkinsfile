@@ -11,8 +11,8 @@ node (label: 'slave1') {
      sh "sudo docker build -t ganesh891/devimage:${env.BUILD_ID} /tmp/workspace/tomcat-dev/."
    }
    stage('Push Docker Image'){
-     withCredentials([string(credentialsId: 'dockerlogin', variable: 'dockerHubPwd')]) {
-        sh "sudo docker login -u ganesh891 -p ${dockerHubPwd}"
+        withCredentials([usernamePassword(credentialsId: '1a41c098-3934-495e-99a9-1a2be5d9aa64', passwordVariable: 'dockerHubPwd', usernameVariable: 'dockerlogin')]) {
+        sh "sudo docker login -u ${dockerlogin} -p ${dockerHubPwd}"
    }
   stage('pushto hub docker image'){
         sh "sudo docker push ganesh891/devimage:${env.BUILD_ID}"
