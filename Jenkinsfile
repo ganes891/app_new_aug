@@ -8,12 +8,16 @@ node (label: 'slave1') {
      sh "${mvnCMD} clean package"
    }
    stage('Build Docker Image'){
-     sh "sudo docker build -t ganesh891/devimage${env.BUILD_ID} /tmp/workspace/tomcat-dev/."
+     sh "sudo docker build -t ganesh891/devimage:${env.BUILD_ID} /tmp/workspace/tomcat-dev/."
    }
    stage('Push Docker Image'){
      withCredentials([string(credentialsId: 'dockerlogin', variable: 'dockerHubPwd')]) {
         sh "sudo docker login -u ganesh891 -p ${dockerHubPwd}"
-        sh "sudo docker push ganesh891/devimage${env.BUILD_ID}"
+   }
+  stage('pushto hub docker image'){
+        sh "sudo docker push ganesh891/devimage:${env.BUILD_ID}"
+   }
+  stage('start the app service with 8080 port'){
         sh "sudo docker run -p 8080:8080 -d --name my-appjune ganesh891/devimage:${env.BUILD_ID}"
    }
 }
