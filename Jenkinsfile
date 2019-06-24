@@ -20,4 +20,3 @@ node (label: 'slave1') {
         sh "sudo docker run -p 8080:8080 -d --name my-appjune ganesh891/devimage:${env.BUILD_ID}"
    }
 }
-}
