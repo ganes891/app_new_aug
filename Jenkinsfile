@@ -17,6 +17,6 @@ node (label: 'slave1') {
         sh "sudo docker push ganesh891/devimage:${env.BUILD_ID}"
    }
   stage('start the app service with 8080 port'){
-        sh "sudo docker run -p 8080:8080 -d --name my-appjune:${env.BUILD_ID} ganesh891/devimage:${env.BUILD_ID}"
+        sh "sudo docker run -p 8080:8080 -d --name my-appjune1 ganesh891/devimage:${env.BUILD_ID}"
    }
 }
