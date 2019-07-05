@@ -18,10 +18,27 @@ node (label: 'slave1') {
    }
   stage('start the app service with 8080 port'){
         sh "sudo docker run -p 8080:8080 -d --name dev-tomcat_v1 ganesh891/devimage:${env.BUILD_ID}"
-  mail (to: 'ganesan.kandasami@gmail.com',
-         subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
          body: "Please go to ${env.BUILD_URL}.");
-   input 'Ready to go?';   
-   // continue on ...
-   }
+         body: "Please go to ${env.BUILD_URL}.");
+environment {
+            EMAIL_TO = 'ganesan.kandasami@gmail.com'
+        }
+    post {
+            failure {
+                emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                        to: EMAIL_TO, 
+                        subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+            }
+            unstable {
+                emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                        to: EMAIL_TO, 
+                        subject: 'Unstable build in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+            }
+            changed {
+                emailext body: 'Check console output at $BUILD_URL to view the results.', 
+                        to: EMAIL_TO, 
+                        subject: 'Jenkins build is back to normal: $PROJECT_NAME - #$BUILD_NUMBER'
+            }
+        }
+	}
 }
