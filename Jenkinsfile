@@ -17,7 +17,7 @@ node (label: 'slave1') {
         sh "sudo docker push ganesh891/devimage:${env.BUILD_ID}"
    }
   stage('start the app service with 8080 port'){
-        sh "sudo docker run -p 8080:8080 -d --name dev-tomcat ganesh891/devimage:${env.BUILD_ID}"
+        sh "sudo docker run -p 8080:8080 -d --name dev-tomcat_v1 ganesh891/devimage:${env.BUILD_ID}"
   mail (to: 'ganesan.kandasami@gmail.com',
          subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
          body: "Please go to ${env.BUILD_URL}.");
