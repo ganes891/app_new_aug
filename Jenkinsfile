@@ -10,13 +10,18 @@ node (label: 'slave1') {
    stage('Build Docker Image'){
      sh "sudo docker build -t ganesh891/devimage:${env.BUILD_ID} /tmp/workspace/tomcat-dev/."
    }
-   stage('Push Docker Image'){
+   stage('login to docker hub'){
         sh "sudo docker login -u ganesh891 -p ganesh-1"
    }
-  stage('pushto hub docker image'){
+  stage('push image to hub docker'){
         sh "sudo docker push ganesh891/devimage:${env.BUILD_ID}"
    }
   stage('start the app service with 8080 port'){
         sh "sudo docker run -p 8080:8080 -d --name dev-tomcat ganesh891/devimage:${env.BUILD_ID}"
+  mail (to: 'ganesan.kandasami@gmail.com',
+         subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
+         body: "Please go to ${env.BUILD_URL}.");
+   input 'Ready to go?';   
+   // continue on ...
    }
 }
