@@ -5,7 +5,7 @@ node (label: 'slave1') {
      sh "${mvnCMD} clean package"
    }
    stage('Build Docker Image'){
-     sh "sudo docker build -t ganesh891/devimage:${env.BUILD_ID} /tmp/workspace/tomcat-dev/."
+     sh "sudo docker build -t ganesh891/devimage:${env.BUILD_ID} ."
    }
    stage('login to docker hub'){
         sh "sudo docker login -u ganesh891 -p ganesh-1"
